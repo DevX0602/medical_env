@@ -1,0 +1,48 @@
+name: medical-env
+description: Multi-step medical reasoning environment for diagnosis under uncertainty
+
+version: 1.0
+
+actions:
+  type: object
+  properties:
+    type:
+      type: string
+      enum: [ask, respond]
+    content:
+      type: string
+
+observations:
+  type: object
+  properties:
+    patient_symptoms:
+      type: string
+    history:
+      type: string
+    conversation:
+      type: array
+      items:
+        type: string
+    step_count:
+      type: integer
+
+rewards:
+  type: float
+  range: [0.0, 1.0]
+
+environment:
+  max_steps: 4
+  deterministic: true
+
+tasks:
+  - name: easy_flu_case
+    difficulty: easy
+    description: Diagnose flu from common symptoms
+
+  - name: infection_case
+    difficulty: medium
+    description: Detect infection based on symptoms and recent surgery
+
+  - name: uncertain_reasoning
+    difficulty: hard
+    description: Requires multi-step reasoning and safe decision-making
