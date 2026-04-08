@@ -5,37 +5,21 @@ import random
 
 import random
 
-def simulate_patient_reply(self, question):
-    reliability = self.task.get("reliability", 1.0)
 
-    # 🔥 unreliable patient behavior
-    if random.random() > reliability:
-        return random.choice([
-            "I'm not sure",
-            "Maybe it's nothing",
-            "I feel fine actually",
-            "Hard to say"
-        ])
-
-    # normal answers
-    if "pain" in question.lower():
-        return "Yes, sharp chest pain"
-    if "duration" in question.lower():
-        return "Started 2 days ago"
-
-    return "I feel weak and tired"
 class MedicalEnv:
     def __init__(self):
         self.task = None
         self.state = None
         self.done = False
 
-    def reset(self):
-        self.task = random.choice([
+    def reset(self, episode_num=0):
+        tasks = [
             get_easy_task(),
             get_medium_task(),
             get_hard_task()
-        ])
+        ]
+
+        self.task = tasks[episode_num % len(tasks)]
 
         self.state = {
             "patient_symptoms": self.task["symptoms"],
@@ -45,12 +29,23 @@ class MedicalEnv:
         }
 
         self.done = False
-
+        print(f"[TASK] Difficulty: {self.task['difficulty']}")
         return Observation(**self.state)
 
     def simulate_patient_reply(self, question):
+        reliability = self.task.get("reliability", 1.0)
         q = question.lower()
 
+        # 🔥 unreliable behavior
+        if random.random() > reliability:
+            return random.choice([
+                "I'm not sure",
+                "Maybe it's nothing",
+                "I feel fine actually",
+                "Hard to say"
+            ])
+
+        # 🔥 normal responses
         if "pain" in q:
             return "Yes, sharp chest pain"
         if "duration" in q:
@@ -58,7 +53,7 @@ class MedicalEnv:
         if "surgery" in q:
             return "Yes, had surgery last week"
 
-        return "I’m not sure"
+        return "I feel weak and tired"
 
     def step(self, action: Action):
         if self.done:
