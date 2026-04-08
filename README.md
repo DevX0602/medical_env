@@ -1,10 +1,10 @@
 ---
 title: Medical Env
-emoji: 🧠
+emoji: 🏥
 colorFrom: blue
 colorTo: green
-sdk: gradio
-app_file: app.py
+sdk: docker
+app_file: inference.py
 pinned: false
 ---
 # 🏥 Medical Diagnosis RL Environment (OpenEnv)
