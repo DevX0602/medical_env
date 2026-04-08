@@ -66,7 +66,7 @@ episodes = 3
 for episode in range(episodes):
     print(f"\n[EPISODE {episode+1}]")
 
-    obs = env.reset()
+    obs = env.reset(episode)
     done = False
     episode_score = 0   # 🔥 NEW
 
