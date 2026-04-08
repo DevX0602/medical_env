@@ -4,7 +4,11 @@ import random
 
 # reproducibility
 random.seed(42)
+import os
 
+API_BASE_URL = os.getenv("API_BASE_URL", "dummy")
+MODEL_NAME = os.getenv("MODEL_NAME", "baseline")
+HF_TOKEN = os.getenv("HF_TOKEN", "none")
 def generate_response(obs):
     symptoms = obs.patient_symptoms.lower()
     history = obs.history.lower()
@@ -82,8 +86,8 @@ for episode in range(episodes):
         episode_score += reward.score
 
     print(f"[EPISODE SCORE]: {episode_score:.2f}")  
-    print(f"[FINAL NORMALIZED SCORE]: {(total_score / episodes)/2:.2f}")
     total_score += episode_score
 
 print("\n[END]")
 print("Final Score:", total_score / episodes)
+print(f"[FINAL NORMALIZED SCORE]: {(total_score / episodes)/2:.2f}")
