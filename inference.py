@@ -66,7 +66,7 @@ episodes = 3
 for episode in range(episodes):
     print(f"\n[EPISODE {episode+1}]")
 
-    obs = env.reset(episode)
+    obs = env.reset()
     done = False
     episode_score = 0   # 🔥 NEW
 
@@ -91,3 +91,7 @@ for episode in range(episodes):
 print("\n[END]")
 print("Final Score:", total_score / episodes)
 print(f"[FINAL NORMALIZED SCORE]: {(total_score / episodes)/2:.2f}")
+import time
+
+while True:
+    time.sleep(60)
